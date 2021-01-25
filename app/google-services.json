@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "650770363534",
+    "project_id": "fahrkarte-e6f17",
+    "storage_bucket": "fahrkarte-e6f17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650770363534:android:680de0004eadb73d3c05df",
+        "android_client_info": {
+          "package_name": "com.example.fahrkarte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650770363534-huq9clmj34kgb1636pu3hqash4081a6r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXw27wecO2zCQ8MnbIbw6K0M2WGfuEA7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650770363534-huq9clmj34kgb1636pu3hqash4081a6r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

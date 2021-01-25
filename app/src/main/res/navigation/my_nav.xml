@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/introFragment">
+
+    <fragment
+        android:id="@+id/createTicketFragment"
+        android:name="com.example.fahrkarte.fragments.CreateTicket.CreateTicketFragment"
+        android:label="Create a ticket"
+        tools:layout="@layout/fragment_create_ticket" >
+        <action
+            android:id="@+id/action_createTicketFragment_to_myTicketsFragment"
+            app:destination="@id/myTicketsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myDeskFragment"
+        android:name="com.example.fahrkarte.fragments.MyDesk.MyDeskFragment"
+        android:label="My Desk"
+        tools:layout="@layout/fragment_my_desk" >
+        <action
+            android:id="@+id/action_myDeskFragment_to_ticketDetailsFragment"
+            app:destination="@id/ticketDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.fahrkarte.fragments.Settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_myTicketsFragment"
+            app:destination="@id/myTicketsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/waitingQueueFragment"
+        android:name="com.example.fahrkarte.fragments.WaitingQueue.WaitingQueueFragment"
+        android:label="Waiting Queue"
+        tools:layout="@layout/fragment_waiting_queue" >
+        <action
+            android:id="@+id/action_waitingQueueFragment_to_ticketDetailsFragment"
+            app:destination="@id/ticketDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myTicketsFragment"
+        android:name="com.example.fahrkarte.fragments.MyTickets.MyTicketsFragment"
+        android:label="My Tickets"
+        tools:layout="@layout/fragment_my_tickets" >
+        <action
+            android:id="@+id/action_myTicketsFragment_to_ticketDetailsFragment"
+            app:destination="@id/ticketDetailsFragment" />
+        <action
+            android:id="@+id/action_myTicketsFragment_to_myDeskFragment"
+            app:destination="@id/myDeskFragment" />
+        <action
+            android:id="@+id/action_myTicketsFragment_to_waitingQueueFragment"
+            app:destination="@id/waitingQueueFragment" />
+        <action
+            android:id="@+id/action_myTicketsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_myTicketsFragment_to_createTicketFragment"
+            app:destination="@id/createTicketFragment" />
+        <action
+            android:id="@+id/action_myTicketsFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ticketDetailsFragment"
+        android:name="com.example.fahrkarte.fragments.TicketDetailsFragment"
+        android:label="Ticket Details"
+        tools:layout="@layout/fragment_ticket_details" >
+        <action
+            android:id="@+id/action_ticketDetailsFragment_to_myTicketsFragment"
+            app:destination="@id/myTicketsFragment" />
+        <action
+            android:id="@+id/action_ticketDetailsFragment_to_myDeskFragment"
+            app:destination="@id/myDeskFragment" />
+        <action
+            android:id="@+id/action_ticketDetailsFragment_to_waitingQueueFragment"
+            app:destination="@id/waitingQueueFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/introFragment"
+        android:name="com.example.fahrkarte.fragments.Intro.IntroFragment"
+        android:label="fragment_intro"
+        tools:layout="@layout/fragment_intro" >
+        <action
+            android:id="@+id/action_introFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_introFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.fahrkarte.fragments.SignIn.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_myTicketsFragment"
+            app:destination="@id/myTicketsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.fahrkarte.fragments.SignUp.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_introFragment"
+            app:destination="@id/introFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.example.fahrkarte.fragments.Users.UsersFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users" >
+        <action
+            android:id="@+id/action_usersFragment_to_myTicketsFragment"
+            app:destination="@id/myTicketsFragment" />
+    </fragment>
+</navigation>

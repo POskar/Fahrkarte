@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_create_ticket"
+            android:icon="@drawable/ic_create_ticket"
+            android:title="Create a ticket"/>
+        <item
+            android:id="@+id/nav_my_tickets"
+            android:icon="@drawable/ic_my_tickets"
+            android:title="My Tickets"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings"/>
+        <item
+            android:id="@+id/nav_sign_out"
+            android:icon="@drawable/ic_sign_out"
+            android:title="Sign Out"/>
+    </group>
+
+    <item android:title="Administrator tools">
+        <menu>
+            <item
+                android:id="@+id/nav_my_desk"
+                android:icon="@drawable/ic_my_desk"
+                android:title="My Desk"/>
+            <item
+                android:id="@+id/nav_waiting_queue"
+                android:title="Waiting Queue"
+                android:icon="@drawable/ic_waiting_queue"/>
+            <item
+                android:id="@+id/nav_users"
+                android:title="Users"
+                android:icon="@drawable/ic_users"/>
+        </menu>
+    </item>
+</menu>
