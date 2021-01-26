@@ -5,10 +5,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.fahrkarte.activities.MainActivity
+import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.data.models.User
+import com.example.fahrkarte.fragments.CreateTicket.CreateTicketFragment
+import com.example.fahrkarte.fragments.MyTickets.MyTicketsFragment
 import com.example.fahrkarte.fragments.Settings.SettingsFragment
 import com.example.fahrkarte.fragments.SignIn.SignInFragment
 import com.example.fahrkarte.fragments.SignUp.SignUpFragment
+import com.example.fahrkarte.fragments.TicketDetailsFragment
 import com.example.fahrkarte.utility.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,6 +22,8 @@ import com.google.firebase.ktx.Firebase
 
 class Firestore {
     private val db = FirebaseFirestore.getInstance()
+
+    //region User
 
     fun registerUser(fragment: SignUpFragment, userInfo: User){
         db.collection(Constants.USERS)
@@ -83,4 +89,76 @@ class Firestore {
         }
         return currentUserID
     }
+
+    //endregion
+
+    //region Ticket & Tasks
+    fun createTicket(fragment: CreateTicketFragment, ticket: Ticket){
+        db.collection(Constants.TICKETS)
+                .document()
+                .set(ticket, SetOptions.merge())
+                .addOnSuccessListener {
+                    Log.e(fragment.javaClass.simpleName, "Board created successfully.")
+                    Toast.makeText(fragment.requireActivity(), "Board created successfully.", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener{
+                    exception ->
+                    Log.e(fragment.javaClass.simpleName, "Error while creating a board", exception)
+                }
+    }
+
+    fun getTicketsList(fragment: MyTicketsFragment){
+        db.collection(Constants.TICKETS)
+                .whereArrayContains(Constants.CREATEDBY, getCurrentUserId())
+                .get()
+                .addOnSuccessListener {
+                    document ->
+                    Log.i(fragment.javaClass.simpleName, document.documents.toString())
+                    val ticketsList: ArrayList<Ticket> = ArrayList()
+                    for(i in document.documents){
+                        var ticket = i.toObject(Ticket::class.java)!!
+                        ticket.documentId = i.id
+                        ticketsList.add(ticket)
+                    }
+
+                    fragment.populateBoardsListtoUI(ticketsList)
+                }.addOnFailureListener{
+                    e ->
+                    Log.e(fragment.javaClass.simpleName, "Error while displaying the boards", e)
+                }
+    }
+
+    fun getTicketDetails(fragment: TicketDetailsFragment, documentId: String){
+        db.collection(Constants.TICKETS)
+                .document(documentId)
+                .get()
+                .addOnSuccessListener {
+                    document ->
+                    Log.i(fragment.javaClass.simpleName, document.toString())
+                    val ticket = document.toObject(Ticket::class.java)!!
+                    ticket.documentId = document.id
+                    fragment.boardDetails(ticket)
+
+                }.addOnFailureListener{
+                    e ->
+                    Log.e(fragment.javaClass.simpleName, "Error while displaying the boards", e)
+                }
+    }
+
+    fun addUpdateTaskList(fragment: TicketDetailsFragment, ticket: Ticket){
+        val taskListHashMap = HashMap<String, Any>()
+        taskListHashMap[Constants.TASK_LIST] = ticket.taskList
+
+        db.collection(Constants.TICKETS)
+                .document(ticket.documentId)
+                .update(taskListHashMap)
+                .addOnSuccessListener {
+                    Log.e(fragment.javaClass.simpleName, "TaskList updated successfully.")
+
+                    fragment.addUpdateTaskListSuccess()
+                }.addOnFailureListener {
+                    exception ->
+                    Log.e(fragment.javaClass.simpleName, "Error while updating a TaskList.")
+                }
+    }
+    //endregion
 }

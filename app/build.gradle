@@ -28,6 +28,19 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/drawable/menu_items',
+                            'src/main/res/layout/activities',
+                            'src/main/res/layout/fragments',
+                            'src/main/res/layout/adapter_items',
+                            'src/main/res', 'src\\main\\res', 'src\\main\\res\\layouts\\activities'
+                    ]
+        }
+    }
+
     buildFeatures{
         dataBinding true
         viewBinding true

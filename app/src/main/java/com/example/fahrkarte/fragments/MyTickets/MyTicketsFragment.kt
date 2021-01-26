@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.databinding.FragmentMyTicketsBinding
 
 class MyTicketsFragment : Fragment() {
@@ -20,6 +21,10 @@ class MyTicketsFragment : Fragment() {
         _binding = FragmentMyTicketsBinding.inflate(inflater, container, false)
 
         return binding.root
+    }
+
+    fun populateBoardsListtoUI(ticketsList: ArrayList<Ticket>) {
+
     }
 
 

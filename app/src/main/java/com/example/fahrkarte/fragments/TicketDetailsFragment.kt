@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.fahrkarte.R
+import com.example.fahrkarte.data.models.Ticket
 
 class TicketDetailsFragment : Fragment() {
 
@@ -19,5 +20,13 @@ class TicketDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_ticket_details, container, false)
+    }
+
+    fun boardDetails(ticket: Ticket) {
+
+    }
+
+    fun addUpdateTaskListSuccess() {
+        TODO("Not yet implemented")
     }
 }
