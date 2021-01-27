@@ -4,15 +4,19 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Ticket(
+    var id: String = "",
     val name: String = "",
     val createdBy: String = "",
-    val processType: String = "",
-    val assignedToPerson: String = "",
-    val assignedToDepartment: String = "",
-    var documentId: String = "",
+    val range: String = "",
+    var priority: String = "",
+    var status: String = "",
+    var assignedToPerson: String = "",
+    var assignedToDepartment: String = "",
     var taskList: ArrayList<Task> = ArrayList()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -23,12 +27,14 @@ data class Ticket(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(name)
         parcel.writeString(createdBy)
-        parcel.writeString(processType)
+        parcel.writeString(range)
+        parcel.writeString(priority)
+        parcel.writeString(status)
         parcel.writeString(assignedToPerson)
         parcel.writeString(assignedToDepartment)
-        parcel.writeString(documentId)
         parcel.writeTypedList(taskList)
     }
 

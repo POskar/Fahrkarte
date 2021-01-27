@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fahrkarte.R
+import com.example.fahrkarte.data.Firebase.Firestore
 import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.databinding.FragmentMyTicketsBinding
 import com.example.fahrkarte.fragments.TicketDetailsFragment
@@ -23,6 +24,9 @@ class MyTicketsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMyTicketsBinding.inflate(inflater, container, false)
+
+        //TODO nie wyświetlają się tickety
+        Firestore().getTicketsList(this)
 
         return binding.root
     }
@@ -43,7 +47,7 @@ class MyTicketsFragment : Fragment() {
             adapter.setOnClickListener(object: MyTicketsAdapter.OnClickListener{
                 override fun onClick(position: Int, model: Ticket) {
                     findNavController().navigate(R.id.action_myTicketsFragment_to_ticketDetailsFragment)
-                    //TODO safeargs
+                    //TODO przekazać dane za pomocą safeargs
                 }
             })
         }else{

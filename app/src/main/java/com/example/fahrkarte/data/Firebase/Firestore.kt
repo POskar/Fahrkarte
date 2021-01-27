@@ -2,7 +2,11 @@ package com.example.fahrkarte.data.Firebase
 
 import android.app.Activity
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.fahrkarte.activities.MainActivity
 import com.example.fahrkarte.data.models.Ticket
@@ -116,7 +120,7 @@ class Firestore {
                     val ticketsList: ArrayList<Ticket> = ArrayList()
                     for(i in document.documents){
                         var ticket = i.toObject(Ticket::class.java)!!
-                        ticket.documentId = i.id
+                        ticket.id = i.id
                         ticketsList.add(ticket)
                     }
 
@@ -135,7 +139,7 @@ class Firestore {
                     document ->
                     Log.i(fragment.javaClass.simpleName, document.toString())
                     val ticket = document.toObject(Ticket::class.java)!!
-                    ticket.documentId = document.id
+                    ticket.id = document.id
                     fragment.ticketDetails(ticket)
 
                 }.addOnFailureListener{
@@ -149,7 +153,7 @@ class Firestore {
         taskListHashMap[Constants.TASK_LIST] = ticket.taskList
 
         db.collection(Constants.TICKETS)
-                .document(ticket.documentId)
+                .document(ticket.id)
                 .update(taskListHashMap)
                 .addOnSuccessListener {
                     Log.e(fragment.javaClass.simpleName, "TaskList updated successfully.")

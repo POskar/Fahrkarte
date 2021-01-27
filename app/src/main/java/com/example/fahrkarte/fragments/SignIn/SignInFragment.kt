@@ -9,9 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.fahrkarte.activities.IntroActivity
 import com.example.fahrkarte.activities.MainActivity
-import com.example.fahrkarte.databinding.ActivityIntroBinding.inflate
 import com.example.fahrkarte.databinding.FragmentSignInBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
