@@ -98,11 +98,11 @@ class Firestore {
                 .document()
                 .set(ticket, SetOptions.merge())
                 .addOnSuccessListener {
-                    Log.e(fragment.javaClass.simpleName, "Board created successfully.")
-                    Toast.makeText(fragment.requireActivity(), "Board created successfully.", Toast.LENGTH_SHORT).show()
+                    Log.e(fragment.javaClass.simpleName, "Ticket created successfully.")
+                    Toast.makeText(fragment.requireActivity(), "Ticket created successfully.", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener{
                     exception ->
-                    Log.e(fragment.javaClass.simpleName, "Error while creating a board", exception)
+                    Log.e(fragment.javaClass.simpleName, "Error while creating a ticket", exception)
                 }
     }
 
@@ -120,10 +120,10 @@ class Firestore {
                         ticketsList.add(ticket)
                     }
 
-                    fragment.populateBoardsListtoUI(ticketsList)
+                    fragment.populateTicketsRecyclerView(ticketsList)
                 }.addOnFailureListener{
                     e ->
-                    Log.e(fragment.javaClass.simpleName, "Error while displaying the boards", e)
+                    Log.e(fragment.javaClass.simpleName, "Error while displaying the tickets", e)
                 }
     }
 
@@ -136,11 +136,11 @@ class Firestore {
                     Log.i(fragment.javaClass.simpleName, document.toString())
                     val ticket = document.toObject(Ticket::class.java)!!
                     ticket.documentId = document.id
-                    fragment.boardDetails(ticket)
+                    fragment.ticketDetails(ticket)
 
                 }.addOnFailureListener{
                     e ->
-                    Log.e(fragment.javaClass.simpleName, "Error while displaying the boards", e)
+                    Log.e(fragment.javaClass.simpleName, "Error while displaying the tickets", e)
                 }
     }
 

@@ -9,6 +9,8 @@ import com.example.fahrkarte.R
 
 class CreateTicketFragment : Fragment() {
 
+    //TODO dodać tworzenie ticketów, aby sprawdzić jak wygląda RecyclerView, najlepiej by było z unikatowym id -> eg. 20210127-1234
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

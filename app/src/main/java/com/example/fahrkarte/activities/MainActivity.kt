@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.bumptech.glide.Glide
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setReorderingAllowed(true)
         }
 
-        var nav_view = binding.navView
+        val nav_view = binding.navView
         nav_view.setNavigationItemSelectedListener(this)
 
         val toolbar: Toolbar = binding.toolbarMainActivity
@@ -123,7 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .load(user.image)
                 .centerCrop()
                 .placeholder(R.drawable.round_profile_icon)
-                .into(navHeaderMainBinding.navUserImage);
+                .into(navHeaderMainBinding.navUserImage)
 
         navHeaderMainBinding.tvUsername.text = user.name
         navHeaderMainBinding.tvDepartment.text = user.department

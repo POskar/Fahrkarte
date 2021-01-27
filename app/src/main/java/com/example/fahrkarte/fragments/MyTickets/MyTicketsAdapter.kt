@@ -16,9 +16,8 @@ open class MyTicketsAdapter(private val context: Context, private var list: Arra
 
     private var onClickListener: OnClickListener? = null
 
-    //TODO coś dzwnego jest z tym ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val _binding = ItemTicketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        _binding = ItemTicketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
@@ -48,5 +47,5 @@ open class MyTicketsAdapter(private val context: Context, private var list: Arra
         this.onClickListener = onClickListener
     }
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    class MyViewHolder(binding: ItemTicketBinding) : RecyclerView.ViewHolder(binding.root)
 }

@@ -22,8 +22,8 @@ class TicketDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_ticket_details, container, false)
     }
 
-    fun boardDetails(ticket: Ticket) {
-
+    fun ticketDetails(ticket: Ticket) {
+        TODO("Not yet implemented")
     }
 
     fun addUpdateTaskListSuccess() {
