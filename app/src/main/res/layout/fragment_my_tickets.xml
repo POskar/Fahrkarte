@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MyTickets.MyTicketsFragment"
-    android:background="@color/yellow">
+    android:background="@color/yellow"
+    tools:context=".fragments.MyTickets.MyTicketsFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tickets_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingTop="8dp"
             android:clipToPadding="false"
+            android:paddingTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <!-- TODO dziwnie się ten layout rozjeżdża jak załaduje tickety do RecyclerView
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_create"
             android:layout_width="wrap_content"
@@ -32,7 +31,7 @@
             android:focusable="true"
             android:src="@drawable/ic_add"
             android:tint="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/rv_tickets_list"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
@@ -41,11 +40,12 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_no_data"
             android:visibility="invisible"
+
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/rv_tickets_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.45" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_no_data"
@@ -57,10 +57,10 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/rv_tickets_list"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/rv_tickets_list"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_no_data"
             app:layout_constraintVertical_bias="0.0" />
-         -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

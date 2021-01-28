@@ -87,25 +87,6 @@ class Firestore {
                 }
     }
 
-    fun getUsernameUsingID(adapter: MyTicketsAdapter, user_id: String){
-        db.collection(Constants.USERS)
-                .whereEqualTo(Constants.ID, user_id)
-                .get()
-                .addOnSuccessListener {document ->
-                    val userList: ArrayList<User> = ArrayList()
-                    for(i in document.documents){
-                        var user = i.toObject(User::class.java)!!
-                        userList.add(user)
-                    }
-
-                    adapter.convertIdtoUsername(userList[0])
-                }.addOnFailureListener { e->
-                    Log.e("MyTicketsAdapter", "Error getting username based on ID given.", e)
-                }
-    }
-
-
-
     fun getCurrentUserId(): String{
         var currentUser = FirebaseAuth.getInstance().currentUser
         var currentUserID = ""

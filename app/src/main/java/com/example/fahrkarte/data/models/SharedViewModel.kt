@@ -10,6 +10,12 @@ import com.example.fahrkarte.R
 
 class SharedViewModel(application: Application): AndroidViewModel(application) {
 
+    var mUser: User? = null
+
+    fun setUser(user: User){
+        mUser = user
+    }
+
     val listener: AdapterView.OnItemSelectedListener = object : AdapterView.OnItemSelectedListener{
         override fun onItemSelected(
                 parent: AdapterView<*>?,
