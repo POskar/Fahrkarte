@@ -24,8 +24,9 @@ open class MyTicketsAdapter(private val context: Context, private var list: Arra
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = list[position]
         if(holder is MyViewHolder){
+            binding.tvTicketId.text = model.id
             binding.tvName.text = model.name
-            binding.tvCreatedBy.text = "Created by: ${model.createdBy}"
+            binding.tvCreatedBy.text = model.createdBy
 
             holder.itemView.setOnClickListener{
                 if(onClickListener != null){

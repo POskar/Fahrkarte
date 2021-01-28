@@ -38,8 +38,6 @@ class CreateTicketFragment : Fragment() {
 
         binding.btnCreate.setOnClickListener {
             createTicket()
-
-            requireActivity().onBackPressed()
         }
 
         return binding.root
@@ -55,7 +53,7 @@ class CreateTicketFragment : Fragment() {
         var user_id = FirebaseAuth.getInstance().currentUser!!.uid
 
         var ticket = Ticket(
-                current_date_formatted.toString() + id.toString(),
+                current_date_formatted.toString() + "-" + id.toString(),
                 binding.etTitle.text.toString(),
                 user_id,
                 binding.spnRange.selectedItem.toString(),

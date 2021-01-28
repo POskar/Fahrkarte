@@ -35,8 +35,8 @@ class MyTicketsFragment : Fragment() {
 
         if(ticketsList.size > 0){
             binding.rvTicketsList.visibility = View.VISIBLE
-            binding.ivNoData.visibility = View.GONE
-            binding.tvNoData.visibility = View.GONE
+            //binding.ivNoData.visibility = View.GONE
+            //binding.tvNoData.visibility = View.GONE
 
             binding.rvTicketsList.layoutManager = LinearLayoutManager(requireContext())
             binding.rvTicketsList.setHasFixedSize(true)
@@ -46,14 +46,20 @@ class MyTicketsFragment : Fragment() {
 
             adapter.setOnClickListener(object: MyTicketsAdapter.OnClickListener{
                 override fun onClick(position: Int, model: Ticket) {
+                    /*
+                    val intent = Intent(this@MainActivity, TaskListActivity::class.java)
+                    intent.putExtra(Constants.DOCUMENT_ID, model.documentId)
+                    startActivity(intent)
+                    */
+
                     findNavController().navigate(R.id.action_myTicketsFragment_to_ticketDetailsFragment)
                     //TODO przekazać dane za pomocą safeargs
                 }
             })
         }else{
             binding.rvTicketsList.visibility = View.GONE
-            binding.ivNoData.visibility = View.VISIBLE
-            binding.tvNoData.visibility = View.VISIBLE
+            //binding.ivNoData.visibility = View.VISIBLE
+            //binding.tvNoData.visibility = View.VISIBLE
         }
     }
 

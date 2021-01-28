@@ -112,7 +112,7 @@ class Firestore {
 
     fun getTicketsList(fragment: MyTicketsFragment){
         db.collection(Constants.TICKETS)
-                .whereArrayContains(Constants.CREATEDBY, getCurrentUserId())
+                .whereEqualTo(Constants.CREATEDBY, getCurrentUserId())
                 .get()
                 .addOnSuccessListener {
                     document ->
