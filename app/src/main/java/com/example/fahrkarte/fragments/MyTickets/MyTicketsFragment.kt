@@ -35,13 +35,14 @@ class MyTicketsFragment : Fragment() {
 
         if(ticketsList.size > 0){
             binding.rvTicketsList.visibility = View.VISIBLE
-            //binding.ivNoData.visibility = View.GONE
-            //binding.tvNoData.visibility = View.GONE
-
+            /* TODO dopóki nie naprawię tego w layoucie to nie zadziała
+            binding.ivNoData.visibility = View.GONE
+            binding.tvNoData.visibility = View.GONE
+            */
             binding.rvTicketsList.layoutManager = LinearLayoutManager(requireContext())
             binding.rvTicketsList.setHasFixedSize(true)
 
-            val adapter = MyTicketsAdapter(requireContext(), ticketsList)
+            val adapter = MyTicketsAdapter(ticketsList)
             binding.rvTicketsList.adapter = adapter
 
             adapter.setOnClickListener(object: MyTicketsAdapter.OnClickListener{
@@ -58,8 +59,10 @@ class MyTicketsFragment : Fragment() {
             })
         }else{
             binding.rvTicketsList.visibility = View.GONE
-            //binding.ivNoData.visibility = View.VISIBLE
-            //binding.tvNoData.visibility = View.VISIBLE
+            /*
+            binding.ivNoData.visibility = View.VISIBLE
+            binding.tvNoData.visibility = View.VISIBLE
+             */
         }
     }
 

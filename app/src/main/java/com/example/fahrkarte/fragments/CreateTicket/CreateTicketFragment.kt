@@ -52,16 +52,21 @@ class CreateTicketFragment : Fragment() {
         var id = 1234
         var user_id = FirebaseAuth.getInstance().currentUser!!.uid
 
-        var ticket = Ticket(
-                current_date_formatted.toString() + "-" + id.toString(),
-                binding.etTitle.text.toString(),
-                user_id,
-                binding.spnRange.selectedItem.toString(),
-                binding.spnPriority.selectedItem.toString(),
-                "Open"
-        )
+        var name = binding.etTitle.text.toString()
+        var description = binding.etDescription.text.toString()
 
-        Firestore().createTicket(this, ticket)
+        if(validateForm(name, description)) {
+            var ticket = Ticket(
+                    current_date_formatted.toString() + "-" + id.toString(),
+                    name,
+                    user_id,
+                    binding.spnRange.selectedItem.toString(),
+                    binding.spnPriority.selectedItem.toString(),
+                    "Open"
+            )
+
+            Firestore().createTicket(this, ticket)
+        }
     }
 
     private fun validateForm(name: String, description: String): Boolean {

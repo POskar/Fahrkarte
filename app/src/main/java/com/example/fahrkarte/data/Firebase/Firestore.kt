@@ -9,9 +9,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.fahrkarte.activities.MainActivity
+import com.example.fahrkarte.data.models.SharedViewModel
 import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.data.models.User
 import com.example.fahrkarte.fragments.CreateTicket.CreateTicketFragment
+import com.example.fahrkarte.fragments.MyTickets.MyTicketsAdapter
 import com.example.fahrkarte.fragments.MyTickets.MyTicketsFragment
 import com.example.fahrkarte.fragments.Settings.SettingsFragment
 import com.example.fahrkarte.fragments.SignIn.SignInFragment
@@ -84,6 +86,25 @@ class Firestore {
                     Log.e("MainActivity", "Error getting data for the drawer.", e)
                 }
     }
+
+    fun getUsernameUsingID(adapter: MyTicketsAdapter, user_id: String){
+        db.collection(Constants.USERS)
+                .whereEqualTo(Constants.ID, user_id)
+                .get()
+                .addOnSuccessListener {document ->
+                    val userList: ArrayList<User> = ArrayList()
+                    for(i in document.documents){
+                        var user = i.toObject(User::class.java)!!
+                        userList.add(user)
+                    }
+
+                    adapter.convertIdtoUsername(userList[0])
+                }.addOnFailureListener { e->
+                    Log.e("MyTicketsAdapter", "Error getting username based on ID given.", e)
+                }
+    }
+
+
 
     fun getCurrentUserId(): String{
         var currentUser = FirebaseAuth.getInstance().currentUser
