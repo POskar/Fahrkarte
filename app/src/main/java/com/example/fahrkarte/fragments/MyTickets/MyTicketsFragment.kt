@@ -5,20 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fahrkarte.R
 import com.example.fahrkarte.data.Firebase.Firestore
-import com.example.fahrkarte.data.models.SharedViewModel
 import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.databinding.FragmentMyTicketsBinding
-import com.example.fahrkarte.fragments.CreateTicket.CreateTicketFragment
-import com.example.fahrkarte.fragments.Settings.SettingsFragment
-import com.example.fahrkarte.fragments.TicketDetailsFragment
 
 class MyTicketsFragment : Fragment() {
 
@@ -35,11 +27,7 @@ class MyTicketsFragment : Fragment() {
         Firestore().getTicketsList(this)
 
         binding.fabCreate.setOnClickListener {
-            activity?.supportFragmentManager?.commit {
-                add<CreateTicketFragment>(R.id.fragment_container)
-                setReorderingAllowed(true)
-                addToBackStack(null)
-            }
+            findNavController().navigate(R.id.action_myTicketsFragment_to_createTicketFragment)
         }
 
         return binding.root
@@ -59,12 +47,10 @@ class MyTicketsFragment : Fragment() {
 
             adapter.setOnClickListener(object: MyTicketsAdapter.OnClickListener{
                 override fun onClick(position: Int, model: Ticket) {
-                    activity?.supportFragmentManager?.commit {
-                        add<TicketDetailsFragment>(R.id.fragment_container)
-                        setReorderingAllowed(true)
-                        addToBackStack(null)
-                    }
                     //TODO przekazać dane za pomocą safeargs
+                    val action = MyTicketsFragmentDirections.actionMyTicketsFragmentToTicketDetailsFragment(model)
+
+                    findNavController().navigate(action)
                 }
             })
         }else{

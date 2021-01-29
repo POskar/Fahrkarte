@@ -5,19 +5,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_create_ticket"
+            android:id="@+id/createTicketFragment"
             android:icon="@drawable/ic_create_ticket"
             android:title="Create a ticket"/>
         <item
-            android:id="@+id/nav_my_tickets"
+            android:id="@+id/myTicketsFragment"
             android:icon="@drawable/ic_my_tickets"
             android:title="My Tickets"/>
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/settingsFragment"
             android:icon="@drawable/ic_settings"
             android:title="Settings"/>
         <item
-            android:id="@+id/nav_sign_out"
+            android:id="@+id/signOutFragment"
             android:icon="@drawable/ic_sign_out"
             android:title="Sign Out"/>
     </group>
@@ -25,15 +25,15 @@
     <item android:title="Administrator tools">
         <menu>
             <item
-                android:id="@+id/nav_my_desk"
+                android:id="@+id/myDeskFragment"
                 android:icon="@drawable/ic_my_desk"
                 android:title="My Desk"/>
             <item
-                android:id="@+id/nav_waiting_queue"
+                android:id="@+id/waitingQueueFragment"
                 android:title="Waiting Queue"
                 android:icon="@drawable/ic_waiting_queue"/>
             <item
-                android:id="@+id/nav_users"
+                android:id="@+id/usersFragment"
                 android:title="Users"
                 android:icon="@drawable/ic_users"/>
         </menu>
