@@ -7,11 +7,11 @@ data class Ticket(
     var id: String = "",
     val name: String = "",
     val createdBy: String = "",
+    var description: String = "",
     val range: String = "",
     var priority: String = "",
     var status: String = "",
     var assignedToPerson: String = "",
-    var assignedToDepartment: String = "",
     var taskList: ArrayList<Task> = ArrayList()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -30,11 +30,11 @@ data class Ticket(
         parcel.writeString(id)
         parcel.writeString(name)
         parcel.writeString(createdBy)
+        parcel.writeString(description)
         parcel.writeString(range)
         parcel.writeString(priority)
         parcel.writeString(status)
         parcel.writeString(assignedToPerson)
-        parcel.writeString(assignedToDepartment)
         parcel.writeTypedList(taskList)
     }
 

@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_myDeskFragment_to_ticketDetailsFragment"
             app:destination="@id/ticketDetailsFragment" />
+        <argument
+            android:name="ticket"
+            app:argType="com.example.fahrkarte.data.models.Ticket" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

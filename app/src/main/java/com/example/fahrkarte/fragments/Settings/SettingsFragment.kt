@@ -27,6 +27,7 @@ import com.example.fahrkarte.databinding.FragmentSettingsBinding
 import com.example.fahrkarte.utility.Constants
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.GlobalScope
 import java.io.IOException
 
 class SettingsFragment : Fragment() {

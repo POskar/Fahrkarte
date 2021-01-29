@@ -17,6 +17,7 @@ import com.example.fahrkarte.databinding.FragmentCreateTicketBinding
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 class CreateTicketFragment : Fragment() {
 
@@ -49,7 +50,7 @@ class CreateTicketFragment : Fragment() {
 
         val formatter = DateTimeFormatter.BASIC_ISO_DATE
         val current_date_formatted = current_date.format(formatter)
-        var id = 1234
+        var id = Random.nextInt(1000, 9999)
         var user_id = FirebaseAuth.getInstance().currentUser!!.uid
 
         var name = binding.etTitle.text.toString()
@@ -57,15 +58,18 @@ class CreateTicketFragment : Fragment() {
 
         if(validateForm(name, description)) {
             var ticket = Ticket(
-                    current_date_formatted.toString() + "-" + id.toString(),
+                "$current_date_formatted-$id",
                     name,
                     user_id,
+                    description,
                     binding.spnRange.selectedItem.toString(),
                     binding.spnPriority.selectedItem.toString(),
                     "Open"
             )
 
             Firestore().createTicket(this, ticket)
+
+            findNavController().navigate(R.id.action_createTicketFragment_to_myTicketsFragment)
         }
     }
 
@@ -81,7 +85,6 @@ class CreateTicketFragment : Fragment() {
             }else->{
                 true
             }
-
         }
     }
 }

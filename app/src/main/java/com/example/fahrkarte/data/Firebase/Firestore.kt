@@ -101,7 +101,7 @@ class Firestore {
     //region Ticket & Tasks
     fun createTicket(fragment: CreateTicketFragment, ticket: Ticket){
         db.collection(Constants.TICKETS)
-                .document()
+                .document(ticket.id)
                 .set(ticket, SetOptions.merge())
                 .addOnSuccessListener {
                     Log.e(fragment.javaClass.simpleName, "Ticket created successfully.")
@@ -143,7 +143,6 @@ class Firestore {
                     val ticket = document.toObject(Ticket::class.java)!!
                     ticket.id = document.id
                     fragment.ticketDetails(ticket)
-
                 }.addOnFailureListener{
                     e ->
                     Log.e(fragment.javaClass.simpleName, "Error while displaying the tickets", e)
