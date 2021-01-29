@@ -142,6 +142,7 @@ class Firestore {
                     Log.i(fragment.javaClass.simpleName, document.toString())
                     val ticket = document.toObject(Ticket::class.java)!!
                     ticket.id = document.id
+
                     fragment.ticketDetails(ticket)
                 }.addOnFailureListener{
                     e ->
