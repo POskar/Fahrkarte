@@ -41,7 +41,7 @@ class TicketDetailsFragment : Fragment() {
         binding.etName.text = "Name: ${passed_ticket.name}"
         binding.etRequester.text = "Requester: ${passed_ticket.createdBy}"
         binding.etRange.text = "Range: ${passed_ticket.range}"
-        binding.etDescription.text = "Description:${System.lineSeparator()} ${passed_ticket.description} ${System.lineSeparator()} ${System.lineSeparator()}"
+        binding.etDescription.text = "Description:${System.lineSeparator()} ${passed_ticket.description} ${System.lineSeparator()}"
         binding.etPriority.text = passed_ticket.priority
 
         when(passed_ticket.priority){
@@ -56,7 +56,7 @@ class TicketDetailsFragment : Fragment() {
     fun ticketDetails(ticket: Ticket) {
         mTicket = ticket
 
-        val addTaskList = Task("Add Task")
+        val addTaskList = Task("empty", ticket.createdBy)
         ticket.taskList.add(addTaskList)
 
         binding.rvTasksList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

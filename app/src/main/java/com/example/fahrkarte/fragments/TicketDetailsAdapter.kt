@@ -32,6 +32,7 @@ open class TicketDetailsAdapter(private val fragment: TicketDetailsFragment, pri
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
         if(holder is MyViewHolder){
+            /*
             if(position == list.size - 1){
                 binding.tvAddTaskList.visibility = View.VISIBLE
                 binding.llTaskItem.visibility = View.GONE
@@ -40,7 +41,6 @@ open class TicketDetailsAdapter(private val fragment: TicketDetailsFragment, pri
                 binding.llTaskItem.visibility = View.VISIBLE
             }
 
-            binding.tvTaskListTitle.text = model.title
             binding.tvAddTaskList.setOnClickListener {
                 binding.tvAddTaskList.visibility = View.GONE
                 binding.cvAddTaskListName.visibility = View.VISIBLE
@@ -52,7 +52,7 @@ open class TicketDetailsAdapter(private val fragment: TicketDetailsFragment, pri
             }
 
             binding.ibDoneListName.setOnClickListener{
-                val listName = binding.etTaskListName.text.toString()
+                val listName = binding.etDescription.text.toString()
 
                 if(listName.isNotEmpty()){
                     fragment.createTaskList(listName)
@@ -60,6 +60,7 @@ open class TicketDetailsAdapter(private val fragment: TicketDetailsFragment, pri
                     Toast.makeText(fragment.context, "Please enter list name.", Toast.LENGTH_LONG).show()
                 }
             }
+             */
         }
     }
 
