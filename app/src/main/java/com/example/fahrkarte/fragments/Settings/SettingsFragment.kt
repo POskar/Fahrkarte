@@ -25,6 +25,7 @@ import com.example.fahrkarte.data.models.User
 import com.example.fahrkarte.databinding.FragmentMyTicketsBinding
 import com.example.fahrkarte.databinding.FragmentSettingsBinding
 import com.example.fahrkarte.utility.Constants
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.GlobalScope
@@ -147,7 +148,7 @@ class SettingsFragment : Fragment() {
 
     fun uploadUserImage(){
         if(mSelectedImageFileUri != null){
-            val sRef : StorageReference = FirebaseStorage.getInstance().reference.child("USER_IMAGE" + System.currentTimeMillis() + "." + Constants.getFileExtension(requireActivity(), mSelectedImageFileUri))
+            val sRef : StorageReference = FirebaseStorage.getInstance().reference.child("USER_IMAGE_" + FirebaseAuth.getInstance().currentUser + "." + Constants.getFileExtension(requireActivity(), mSelectedImageFileUri))
 
             sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener {
                     taskSnapshot ->

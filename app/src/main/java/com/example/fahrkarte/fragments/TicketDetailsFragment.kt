@@ -1,11 +1,13 @@
 package com.example.fahrkarte.fragments
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +52,15 @@ class TicketDetailsFragment : Fragment() {
             "Low Priority"-> { binding.etPriority.setTextColor(resources.getColor(R.color.green)) }
         }
 
+        binding.ibDoneTicket.setOnClickListener {
+            var description = binding.etTaskDescription.text.toString()
+            if(TextUtils.isEmpty(description)){
+                Toast.makeText(requireContext(), "Fill in the task description.", Toast.LENGTH_SHORT).show()
+            }else {
+                createTaskList(description)
+            }
+        }
+
         return binding.root
     }
 
@@ -66,8 +77,8 @@ class TicketDetailsFragment : Fragment() {
         binding.rvTasksList.adapter = adapter
     }
 
-    fun createTaskList(taskListName: String){
-        val task = Task(taskListName, Firestore().getCurrentUserId())
+    fun createTaskList(description: String){
+        val task = Task(description, Firestore().getCurrentUserId())
 
         mTicket.taskList.add(0, task)
         mTicket.taskList.removeAt(mTicket.taskList.size - 1)
