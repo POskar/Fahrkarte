@@ -1,22 +1,20 @@
-package com.example.fahrkarte.fragments
+package com.example.fahrkarte.fragments.TicketDetails
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fahrkarte.R
 import com.example.fahrkarte.data.Firebase.Firestore
 import com.example.fahrkarte.data.models.Task
 import com.example.fahrkarte.data.models.Ticket
-import com.example.fahrkarte.data.models.User
-import com.example.fahrkarte.databinding.FragmentMyTicketsBinding
 import com.example.fahrkarte.databinding.FragmentTicketDetailsBinding
 
 class TicketDetailsFragment : Fragment() {
@@ -52,14 +50,32 @@ class TicketDetailsFragment : Fragment() {
             "Low Priority"-> { binding.etPriority.setTextColor(resources.getColor(R.color.green)) }
         }
 
+        binding.tvAddTaskList.setOnClickListener {
+            TransitionManager.beginDelayedTransition(binding.cvCreateTicket, AutoTransition())
+            binding.cvCreateTicket.visibility = View.VISIBLE
+        }
+
         binding.ibDoneTicket.setOnClickListener {
             var description = binding.etTaskDescription.text.toString()
             if(TextUtils.isEmpty(description)){
                 Toast.makeText(requireContext(), "Fill in the task description.", Toast.LENGTH_SHORT).show()
             }else {
-                createTaskList(description)
+                createNewTask(description)
+                TransitionManager.beginDelayedTransition(binding.cvCreateTicket, AutoTransition())
+                binding.cvCreateTicket.visibility = View.GONE
+                binding.etDescription.text = ""
+                binding.spnStatus.setSelection(0)
             }
         }
+
+        binding.ibCloseTicket.setOnClickListener{
+            TransitionManager.beginDelayedTransition(binding.cvCreateTicket, AutoTransition())
+            binding.cvCreateTicket.visibility = View.GONE
+            binding.etDescription.text = ""
+            binding.spnStatus.setSelection(0)
+        }
+
+        //TODO jeśli status taska jest zamknięty to zamykamy ticket - zmienić jakoś jego wygląd (czarna kropka) i może dodać osobny recycler view dla zamkniętych
 
         return binding.root
     }
@@ -67,21 +83,26 @@ class TicketDetailsFragment : Fragment() {
     fun ticketDetails(ticket: Ticket) {
         mTicket = ticket
 
-        val addTaskList = Task("empty", ticket.createdBy)
-        ticket.taskList.add(addTaskList)
-
         binding.rvTasksList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvTasksList.setHasFixedSize(true)
 
         val adapter = TicketDetailsAdapter(this, ticket.taskList)
         binding.rvTasksList.adapter = adapter
+
+        binding.etStatus.text = ticket.status
     }
 
-    fun createTaskList(description: String){
-        val task = Task(description, Firestore().getCurrentUserId())
+    fun createNewTask(description: String){
+        val task = Task(description, Firestore().getCurrentUserId(), mTicket.taskList.size)
 
         mTicket.taskList.add(0, task)
         mTicket.taskList.removeAt(mTicket.taskList.size - 1)
+
+        when(binding.spnStatus.selectedItem){
+            "Open" -> { mTicket.status = "Open" }
+            "Waiting" -> { mTicket.status = "Waiting" }
+            "Closed" -> { mTicket.status = "Closed" }
+        }
 
         Firestore().addUpdateTaskList(this, mTicket)
     }

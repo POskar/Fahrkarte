@@ -2,29 +2,20 @@ package com.example.fahrkarte.data.Firebase
 
 import android.app.Activity
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.fahrkarte.activities.MainActivity
-import com.example.fahrkarte.data.models.SharedViewModel
 import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.data.models.User
 import com.example.fahrkarte.fragments.CreateTicket.CreateTicketFragment
-import com.example.fahrkarte.fragments.MyTickets.MyTicketsAdapter
 import com.example.fahrkarte.fragments.MyTickets.MyTicketsFragment
 import com.example.fahrkarte.fragments.Settings.SettingsFragment
-import com.example.fahrkarte.fragments.SignIn.SignInFragment
 import com.example.fahrkarte.fragments.SignUp.SignUpFragment
-import com.example.fahrkarte.fragments.TicketDetailsFragment
+import com.example.fahrkarte.fragments.TicketDetails.TicketDetailsFragment
 import com.example.fahrkarte.utility.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class Firestore {
     private val db = FirebaseFirestore.getInstance()
@@ -153,6 +144,7 @@ class Firestore {
     fun addUpdateTaskList(fragment: TicketDetailsFragment, ticket: Ticket){
         val taskListHashMap = HashMap<String, Any>()
         taskListHashMap[Constants.TASK_LIST] = ticket.taskList
+        taskListHashMap[Constants.STATUS] = ticket.status
 
         db.collection(Constants.TICKETS)
                 .document(ticket.id)
