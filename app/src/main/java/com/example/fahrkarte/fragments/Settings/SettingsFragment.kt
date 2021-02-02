@@ -110,7 +110,7 @@ class SettingsFragment : Fragment() {
             .placeholder(R.drawable.round_profile_icon)
             .into(binding.ivUserImage)
 
-        binding.etName.setText(user.name)
+        binding.etFullname.setText(user.name)
         binding.etEmail.setText(user.email)
         if(user.mobile != 0L){
             binding.etMobile.setText(user.mobile.toString())
@@ -126,8 +126,8 @@ class SettingsFragment : Fragment() {
             anyChangesMade = true
         }
 
-        if(binding.etName.text.toString() != mUserDetails.name){
-            userHashMap[Constants.NAME] = binding.etName.text.toString()
+        if(binding.etFullname.text.toString() != mUserDetails.name){
+            userHashMap[Constants.NAME] = binding.etFullname.text.toString()
             anyChangesMade = true
         }
 

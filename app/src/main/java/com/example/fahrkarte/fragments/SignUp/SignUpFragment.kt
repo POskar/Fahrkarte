@@ -31,23 +31,36 @@ class SignUpFragment : Fragment() {
             registerUser()
         }
 
+        binding.toolbarSingInActivity.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
         return binding.root
     }
 
     private fun registerUser(){
         val name: String = binding.etName.text.toString().trim() { it <= ' '}
+        val surname: String = binding.etSurname.text.toString().trim() { it <= ' '}
         val email: String = binding.etEmail.text.toString().trim() { it <= ' '}
         val password: String = binding.etPassword.text.toString().trim() { it <= ' '}
         val department: String = binding.spnDepartments.selectedItem.toString()
 
-        if(validateForm(name, email, password, department)){
+        val fullname = "$name $surname"
+
+        var whetherAdmin = 0
+        if(department == "IT"){
+            whetherAdmin = 1
+        }
+
+        if(validateForm(fullname, email, password, department)){
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                     task ->
                 if (task.isSuccessful) {
                     val firebaseUser: FirebaseUser = task.result!!.user!!
                     val registeredEmail = firebaseUser.email!!
 
-                    val user = User(firebaseUser.uid, name, registeredEmail, department)
+
+                    val user = User(firebaseUser.uid, fullname, registeredEmail, department, "", 0, whetherAdmin)
                     Firestore().registerUser(this, user)
                     findNavController().navigate(R.id.action_signUpFragment_to_introFragment)
                 } else {
@@ -60,7 +73,7 @@ class SignUpFragment : Fragment() {
     private fun validateForm(name: String, email: String, password: String, department: String): Boolean {
         return when {
             TextUtils.isEmpty(name)->{
-                Toast.makeText(requireContext(), "Please enter the name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please enter the name and surname", Toast.LENGTH_SHORT).show()
                 false
             }
             TextUtils.isEmpty(email)->{

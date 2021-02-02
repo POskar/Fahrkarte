@@ -45,16 +45,18 @@ class CreateTicketFragment : Fragment() {
     }
 
     private fun createTicket() {
-
         val current_date = LocalDateTime.now()
-
         val formatter = DateTimeFormatter.BASIC_ISO_DATE
         val current_date_formatted = current_date.format(formatter)
+
+        // TODO poprawić nadawanie unikatowej wartości ticketowi
         var id = Random.nextInt(1000, 9999)
         var user_id = FirebaseAuth.getInstance().currentUser!!.uid
 
-        var name = binding.etTitle.text.toString()
+        var name = binding.etTitle.text.toString().trim() { it <= ' '}
         var description = binding.etDescription.text.toString()
+        var range = binding.spnRange.selectedItem.toString()
+        var priority = binding.spnPriority.selectedItem.toString()
 
         if(validateForm(name, description)) {
             var ticket = Ticket(
@@ -62,8 +64,8 @@ class CreateTicketFragment : Fragment() {
                     name,
                     user_id,
                     description,
-                    binding.spnRange.selectedItem.toString(),
-                    binding.spnPriority.selectedItem.toString(),
+                    range,
+                    priority,
                     "Open"
             )
 

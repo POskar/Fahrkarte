@@ -34,6 +34,10 @@ class SignInFragment : Fragment() {
         binding.btnSignIn.setOnClickListener {
             signInUser()
         }
+        
+        binding.toolbarSingInActivity.setOnClickListener {
+            activity?.onBackPressed()
+        }
 
         return view
     }

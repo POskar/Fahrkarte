@@ -14,6 +14,7 @@ import com.example.fahrkarte.fragments.Settings.SettingsFragment
 import com.example.fahrkarte.fragments.SignUp.SignUpFragment
 import com.example.fahrkarte.fragments.TicketDetails.TicketDetailsFragment
 import com.example.fahrkarte.fragments.Users.UsersFragment
+import com.example.fahrkarte.fragments.WaitingQueue.WaitingQueueFragment
 import com.example.fahrkarte.utility.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -145,6 +146,25 @@ class Firestore {
                 }
     }
 
+    fun getUnassignedTickets(fragment: WaitingQueueFragment){
+        db.collection(Constants.TICKETS)
+                .whereEqualTo(Constants.ASSIGNED_TO, "")
+                .get()
+                .addOnSuccessListener {
+                    document ->
+                    val ticketsList: ArrayList<Ticket> = ArrayList()
+                    for(i in document.documents){
+                        var ticket = i.toObject(Ticket::class.java)!!
+                        ticketsList.add(ticket)
+                    }
+
+                    fragment.populateTicketsRecyclerView(ticketsList)
+                }.addOnFailureListener{
+                    e ->
+                    Log.e(fragment.javaClass.simpleName, "Error while displaying the tickets in my desk", e)
+                }
+    }
+
     fun getTicketsAssignedTo(fragment: MyDeskFragment){
         db.collection(Constants.TICKETS)
                 .whereEqualTo(Constants.ASSIGNED_TO, getCurrentUserId())
@@ -159,7 +179,7 @@ class Firestore {
                         ticketsList.add(ticket)
                     }
 
-
+                    fragment.populateTicketsRecyclerView(ticketsList)
                 }.addOnFailureListener{
                     e ->
                     Log.e(fragment.javaClass.simpleName, "Error while displaying the tickets in my desk", e)
