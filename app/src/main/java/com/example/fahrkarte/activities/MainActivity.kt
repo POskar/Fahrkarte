@@ -63,6 +63,18 @@ class MainActivity : AppCompatActivity() {
 
         navHeaderMainBinding.tvUsername.text = user.name
         navHeaderMainBinding.tvDepartment.text = user.department
+
+        when(user.admin){
+            0 -> {
+                binding.navView.menu.clear()
+                binding.navView.inflateMenu(R.menu.drawer_menu_user)
+            }
+            1 -> {
+
+                binding.navView.menu.clear()
+                binding.navView.inflateMenu(R.menu.drawer_menu_admin)
+            }
+        }
     }
 
     override fun onBackPressed() {

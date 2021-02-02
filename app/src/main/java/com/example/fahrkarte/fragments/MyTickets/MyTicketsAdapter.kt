@@ -29,7 +29,7 @@ open class MyTicketsAdapter(private var list: ArrayList<Ticket>): RecyclerView.A
             binding.tvTicketId.text = model.id
             binding.tvName.text = model.name
             binding.tvCreatedBy.text =  model.createdBy
-            parsePriorityColor(model.priority)
+            parsePriorityColor(model.priority, model.status)
 
             holder.itemView.setOnClickListener{
                 if(onClickListener != null){
@@ -51,11 +51,14 @@ open class MyTicketsAdapter(private var list: ArrayList<Ticket>): RecyclerView.A
         this.onClickListener = onClickListener
     }
 
-    private fun parsePriorityColor(priority: String){
+    private fun parsePriorityColor(priority: String, status: String){
         when(priority){
             "High Priority" -> { binding.priorityIndicator.setCardBackgroundColor(binding.priorityIndicator.context.getColor(R.color.red)) }
             "Medium Priority"-> { binding.priorityIndicator.setCardBackgroundColor(binding.priorityIndicator.context.getColor(R.color.yellow)) }
             "Low Priority"-> { binding.priorityIndicator.setCardBackgroundColor(binding.priorityIndicator.context.getColor(R.color.green)) }
+        }
+        if(status == "Closed"){
+            binding.priorityIndicator.setCardBackgroundColor(binding.priorityIndicator.context.getColor(R.color.black))
         }
     }
 

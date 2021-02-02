@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/createTicketFragment"
+            android:icon="@drawable/ic_create_ticket"
+            android:title="Create a ticket"/>
+        <item
+            android:id="@+id/myTicketsFragment"
+            android:icon="@drawable/ic_my_tickets"
+            android:title="My Tickets"/>
+        <item
+            android:id="@+id/settingsFragment"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings"/>
+        <item
+            android:id="@+id/signOutFragment"
+            android:icon="@drawable/ic_sign_out"
+            android:title="Sign Out"/>
+    </group>
+</menu>

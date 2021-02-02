@@ -50,7 +50,12 @@ class TicketDetailsFragment : Fragment() {
             "Low Priority"-> { binding.etPriority.setTextColor(resources.getColor(R.color.green)) }
         }
 
-        binding.tvAddTaskList.setOnClickListener {
+        if(passed_ticket.status == "Closed"){
+            binding.tvCreateTask.visibility = View.GONE
+            binding.cvCreateTicket.visibility = View.GONE
+        }
+
+        binding.tvCreateTask.setOnClickListener {
             TransitionManager.beginDelayedTransition(binding.cvCreateTicket, AutoTransition())
             binding.cvCreateTicket.visibility = View.VISIBLE
         }
@@ -63,7 +68,7 @@ class TicketDetailsFragment : Fragment() {
                 createNewTask(description)
                 TransitionManager.beginDelayedTransition(binding.cvCreateTicket, AutoTransition())
                 binding.cvCreateTicket.visibility = View.GONE
-                binding.etDescription.text = ""
+                binding.etTaskDescription.text.clear()
                 binding.spnStatus.setSelection(0)
             }
         }
@@ -71,7 +76,7 @@ class TicketDetailsFragment : Fragment() {
         binding.ibCloseTicket.setOnClickListener{
             TransitionManager.beginDelayedTransition(binding.cvCreateTicket, AutoTransition())
             binding.cvCreateTicket.visibility = View.GONE
-            binding.etDescription.text = ""
+            binding.etTaskDescription.text.clear()
             binding.spnStatus.setSelection(0)
         }
 
@@ -101,7 +106,10 @@ class TicketDetailsFragment : Fragment() {
         when(binding.spnStatus.selectedItem){
             "Open" -> { mTicket.status = "Open" }
             "Waiting" -> { mTicket.status = "Waiting" }
-            "Closed" -> { mTicket.status = "Closed" }
+            "Closed" -> {
+                mTicket.status = "Closed"
+                binding.tvCreateTask.visibility = View.GONE
+                binding.cvCreateTicket.visibility = View.GONE}
         }
 
         Firestore().addUpdateTaskList(this, mTicket)

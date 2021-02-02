@@ -42,6 +42,7 @@ class MyTicketsFragment : Fragment() {
             binding.rvTicketsList.layoutManager = LinearLayoutManager(requireContext())
             binding.rvTicketsList.setHasFixedSize(true)
 
+            ticketsList.sortedBy { it.status }
             val adapter = MyTicketsAdapter(ticketsList)
             binding.rvTicketsList.adapter = adapter
 
