@@ -8,10 +8,12 @@ import com.example.fahrkarte.activities.MainActivity
 import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.data.models.User
 import com.example.fahrkarte.fragments.CreateTicket.CreateTicketFragment
+import com.example.fahrkarte.fragments.MyDesk.MyDeskFragment
 import com.example.fahrkarte.fragments.MyTickets.MyTicketsFragment
 import com.example.fahrkarte.fragments.Settings.SettingsFragment
 import com.example.fahrkarte.fragments.SignUp.SignUpFragment
 import com.example.fahrkarte.fragments.TicketDetails.TicketDetailsFragment
+import com.example.fahrkarte.fragments.Users.UsersFragment
 import com.example.fahrkarte.utility.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,19 +29,20 @@ class Firestore {
                 .document(getCurrentUserId())
                 .set(userInfo, SetOptions.merge())
                 .addOnSuccessListener {
-                    //TODO Progress dialog / bar
-                    Toast.makeText(fragment.requireContext(), "User successfully registered !", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(fragment.requireContext(), "User successfully registered.", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener{ e ->
+                    Log.e("SignUp", "Error registering the user", e)
                 }
     }
 
-    fun updateUserProfileData(userHashMap: HashMap<String, Any>){ //update danych o użytkowniku np w settings
+    fun updateUserProfileData(fragment: SettingsFragment, userHashMap: HashMap<String, Any>){
         db.collection(Constants.USERS)
                 .document(getCurrentUserId())
                 .update(userHashMap)
                 .addOnSuccessListener {
-
+                    Toast.makeText(fragment.requireContext(), "User has been successfully updated.", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener{ e ->
-                    // TODO ???
+                    Log.e("SettingsFragment", "Error updating the user", e)
                 }
     }
 
@@ -57,10 +60,9 @@ class Firestore {
             }.addOnFailureListener{ e ->
                 when(fragment){
                     is SettingsFragment ->{
-                        // TODO hideProgressDialog() ???
+                        Log.e("SettingsFragment", "Error writing document", e)
                     }
                 }
-                Log.e("SignInUser", "Error writing document", e)
             }
     }
 
@@ -75,6 +77,25 @@ class Firestore {
                     }
                 }.addOnFailureListener{ e ->
                     Log.e("MainActivity", "Error getting data for the drawer.", e)
+                }
+    }
+
+    fun getUsersList(fragment: UsersFragment){
+        db.collection(Constants.USERS)
+                .whereNotEqualTo(Constants.ID, getCurrentUserId())
+                .get()
+                .addOnSuccessListener {
+                    document ->
+                    val usersList: ArrayList<User> = ArrayList()
+                    for(i in document){
+                        var user = i.toObject(User::class.java)!!
+                        usersList.add(user)
+                    }
+
+                    fragment.populateUsersRecyclerView(usersList)
+                }.addOnFailureListener{
+                    e ->
+                    Log.e(fragment.javaClass.simpleName, "Error while displaying the users", e)
                 }
     }
 
@@ -124,6 +145,27 @@ class Firestore {
                 }
     }
 
+    fun getTicketsAssignedTo(fragment: MyDeskFragment){
+        db.collection(Constants.TICKETS)
+                .whereEqualTo(Constants.ASSIGNED_TO, getCurrentUserId())
+                .get()
+                .addOnSuccessListener {
+                    document ->
+                    Log.i(fragment.javaClass.simpleName, document.documents.toString())
+                    val ticketsList: ArrayList<Ticket> = ArrayList()
+                    for(i in document.documents){
+                        var ticket = i.toObject(Ticket::class.java)!!
+                        ticket.id = i.id
+                        ticketsList.add(ticket)
+                    }
+
+
+                }.addOnFailureListener{
+                    e ->
+                    Log.e(fragment.javaClass.simpleName, "Error while displaying the tickets in my desk", e)
+                }
+    }
+
     fun getTicketDetails(fragment: TicketDetailsFragment, documentId: String){
         db.collection(Constants.TICKETS)
                 .document(documentId)
@@ -145,6 +187,7 @@ class Firestore {
         val taskListHashMap = HashMap<String, Any>()
         taskListHashMap[Constants.TASK_LIST] = ticket.taskList
         taskListHashMap[Constants.STATUS] = ticket.status
+        taskListHashMap[Constants.ASSIGNED_TO] = ticket.assignedToPerson
 
         db.collection(Constants.TICKETS)
                 .document(ticket.id)

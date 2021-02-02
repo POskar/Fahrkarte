@@ -48,7 +48,6 @@ class MyTicketsFragment : Fragment() {
 
             adapter.setOnClickListener(object: MyTicketsAdapter.OnClickListener{
                 override fun onClick(position: Int, model: Ticket) {
-                    //TODO przekazać dane za pomocą safeargs
                     val action = MyTicketsFragmentDirections.actionMyTicketsFragmentToTicketDetailsFragment(model)
 
                     findNavController().navigate(action)
@@ -60,6 +59,4 @@ class MyTicketsFragment : Fragment() {
             binding.tvNoData.visibility = View.VISIBLE
         }
     }
-
-
 }

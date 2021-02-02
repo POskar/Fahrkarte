@@ -45,21 +45,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_user_image"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.297" />
+                app:layout_constraintVertical_bias="0.32" />
 
             <TextView
                 android:id="@+id/tv_department"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:maxLines="2"
                 android:text="Department"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:maxLines="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_user_image"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name"
-                app:layout_constraintVertical_bias="0.423" />
+                app:layout_constraintVertical_bias="0.25" />
 
 
 

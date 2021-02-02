@@ -80,8 +80,6 @@ class TicketDetailsFragment : Fragment() {
             binding.spnStatus.setSelection(0)
         }
 
-        //TODO jeśli status taska jest zamknięty to zamykamy ticket - zmienić jakoś jego wygląd (czarna kropka) i może dodać osobny recycler view dla zamkniętych
-
         return binding.root
     }
 
@@ -109,9 +107,11 @@ class TicketDetailsFragment : Fragment() {
             "Closed" -> {
                 mTicket.status = "Closed"
                 binding.tvCreateTask.visibility = View.GONE
-                binding.cvCreateTicket.visibility = View.GONE}
+                binding.cvCreateTicket.visibility = View.GONE
+            }
         }
 
+        mTicket.assignedToPerson = Firestore().getCurrentUserId()
         Firestore().addUpdateTaskList(this, mTicket)
     }
 

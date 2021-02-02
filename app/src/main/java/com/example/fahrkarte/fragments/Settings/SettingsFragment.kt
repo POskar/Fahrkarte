@@ -140,9 +140,8 @@ class SettingsFragment : Fragment() {
             }
         }
 
-
         if(anyChangesMade) {
-            Firestore().updateUserProfileData(userHashMap)
+            Firestore().updateUserProfileData(this, userHashMap)
         }
     }
 
