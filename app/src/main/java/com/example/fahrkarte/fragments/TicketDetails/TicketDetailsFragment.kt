@@ -96,10 +96,10 @@ class TicketDetailsFragment : Fragment() {
     }
 
     fun createNewTask(description: String){
-        val task = Task(description, Firestore().getCurrentUserId(), mTicket.taskList.size)
+        val task = Task(description, Firestore().getCurrentUserId(), mTicket.taskList.size + 1)
 
         mTicket.taskList.add(0, task)
-        mTicket.taskList.removeAt(mTicket.taskList.size - 1)
+        //mTicket.taskList.removeAt(mTicket.taskList.size - 1)
 
         when(binding.spnStatus.selectedItem){
             "Open" -> { mTicket.status = "Open" }

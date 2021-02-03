@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.TicketDetails.TicketDetailsFragment"
-    >
+    android:background="@color/darkerGray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -157,7 +157,8 @@
                 android:elevation="2dp"
                 android:visibility="gone"
                 app:cardCornerRadius="5dp"
-                tools:visibility="visible">
+                tools:visibility="visible"
+                android:background="@color/darkerGray">
 
                 <LinearLayout
                     android:layout_width="match_parent"
