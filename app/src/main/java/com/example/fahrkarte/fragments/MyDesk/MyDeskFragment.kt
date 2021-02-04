@@ -35,8 +35,15 @@ class MyDeskFragment : Fragment() {
     }
 
     fun populateTicketsRecyclerView(ticketsList: ArrayList<Ticket>){
-
-        if(ticketsList.size > 0){
+        var listSize = ticketsList.size
+        var quantity = ""
+        if(listSize > 0){
+            if(listSize > 1){
+                quantity = "are $listSize tickets"
+            }else{
+                quantity = "is $listSize ticket"
+            }
+            binding.tvQuantity.text = "Currently there $quantity in My Desk"
             binding.rvTicketsList.visibility = View.VISIBLE
             binding.ivNoData.visibility = View.GONE
             binding.tvNoData.visibility = View.GONE
@@ -55,6 +62,7 @@ class MyDeskFragment : Fragment() {
                 }
             })
         }else{
+            binding.tvQuantity.visibility = View.GONE
             binding.rvTicketsList.visibility = View.GONE
             binding.ivNoData.visibility = View.VISIBLE
             binding.tvNoData.visibility = View.VISIBLE

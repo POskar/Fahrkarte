@@ -37,6 +37,7 @@ class WaitingQueueFragment : Fragment() {
     fun populateTicketsRecyclerView(ticketsList: ArrayList<Ticket>){
 
         if(ticketsList.size > 0){
+            binding.tvQuantity.text = "Found " + ticketsList.size + " tickets in Waiting Queue"
             binding.rvTicketsList.visibility = View.VISIBLE
             binding.ivNoData.visibility = View.GONE
             binding.tvNoData.visibility = View.GONE
@@ -55,6 +56,7 @@ class WaitingQueueFragment : Fragment() {
                 }
             })
         }else{
+            binding.tvQuantity.visibility = View.GONE
             binding.rvTicketsList.visibility = View.GONE
             binding.ivNoData.visibility = View.VISIBLE
             binding.tvNoData.visibility = View.VISIBLE

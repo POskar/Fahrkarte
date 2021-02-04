@@ -97,7 +97,7 @@
     </fragment>
     <fragment
         android:id="@+id/signOutFragment"
-        android:name="com.example.fahrkarte.fragments.SignOutFragment"
+        android:name="com.example.fahrkarte.fragments.SignOut.SignOutFragment"
         android:label="fragment_sign_out"
         tools:layout="@layout/fragment_sign_out" >
         <action
