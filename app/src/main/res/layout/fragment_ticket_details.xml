@@ -138,8 +138,24 @@
             android:orientation="vertical"
             android:layout_marginBottom="10dp">
 
-            <TextView
-                android:id="@+id/tv_create_task"
+            <Button
+                android:id="@+id/btn_send_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button_green"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="Send back to waiting queue"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:drawableEnd="@android:drawable/ic_menu_send"
+                android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:id="@+id/btn_create_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button_green"
@@ -148,7 +164,10 @@
                 android:padding="12dp"
                 android:text="Create task"
                 android:textColor="@color/colorAccent"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:drawableEnd="@android:drawable/ic_menu_edit"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_create_ticket"

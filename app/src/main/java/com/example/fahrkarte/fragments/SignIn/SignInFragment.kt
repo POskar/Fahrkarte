@@ -9,9 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.example.fahrkarte.R
 import com.example.fahrkarte.activities.MainActivity
 import com.example.fahrkarte.databinding.FragmentSignInBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -54,8 +60,12 @@ class SignInFragment : Fragment() {
                     startActivity(Intent(requireContext(), MainActivity::class.java))
                     activity?.finish()
                 } else {
-                    Log.w("Sign in", "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
+                    try {
+                        throw task.exception!!
+                    } catch (e: Exception) {
+                        showErrorSnackbar(e.message.toString())
+                    }
+                    Log.e("Sign in", task.exception?.message, task.exception)
                 }
             }
         }
@@ -64,11 +74,11 @@ class SignInFragment : Fragment() {
     private fun validateForm(email: String, password: String) : Boolean{
         return when {
             TextUtils.isEmpty(email)->{
-                Toast.makeText(requireContext(),"Please enter the e-mail", Toast.LENGTH_SHORT).show()
+                showErrorSnackbar("Please enter the e-mail")
                 false
             }
             TextUtils.isEmpty(password)->{
-                Toast.makeText(requireContext(),"Please enter the password", Toast.LENGTH_SHORT).show()
+                showErrorSnackbar("Please enter the password.")
                 false
             }else->{
                 true
@@ -77,4 +87,11 @@ class SignInFragment : Fragment() {
         }
     }
 
+    private fun showErrorSnackbar(message: String){
+        val snackBar = Snackbar.make(requireActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+
+        val snackBarView = snackBar.view
+        snackBarView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.snackbar_error_color))
+        snackBar.show()
+    }
 }

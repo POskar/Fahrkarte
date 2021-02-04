@@ -13,8 +13,6 @@ open class TicketDetailsAdapter(private val fragment: TicketDetailsFragment, pri
 
     class MyViewHolder(binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root)
 
-    //TODO stworzyć recycler adapter dla tasków w ticketcie
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

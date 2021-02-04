@@ -57,11 +57,17 @@ class Firestore {
                     is SettingsFragment ->{
                         fragment.setUserDataInUI(loggedInUser)
                     }
+                    is TicketDetailsFragment ->{
+                        fragment.checkUserType(loggedInUser)
+                    }
                 }
             }.addOnFailureListener{ e ->
                 when(fragment){
                     is SettingsFragment ->{
                         Log.e("SettingsFragment", "Error writing document", e)
+                    }
+                    is TicketDetailsFragment ->{
+                        Log.e("TicketDetailsFragment", "Error writing document", e)
                     }
                 }
             }
@@ -203,7 +209,7 @@ class Firestore {
                 }
     }
 
-    fun addUpdateTaskList(fragment: TicketDetailsFragment, ticket: Ticket){
+    fun updateTaskList(fragment: TicketDetailsFragment, ticket: Ticket){
         val taskListHashMap = HashMap<String, Any>()
         taskListHashMap[Constants.TASK_LIST] = ticket.taskList
         taskListHashMap[Constants.STATUS] = ticket.status
@@ -212,6 +218,23 @@ class Firestore {
         db.collection(Constants.TICKETS)
                 .document(ticket.id)
                 .update(taskListHashMap)
+                .addOnSuccessListener {
+                    Log.e(fragment.javaClass.simpleName, "TaskList updated successfully.")
+
+                    fragment.addUpdateTaskListSuccess()
+                }.addOnFailureListener {
+                    exception ->
+                    Log.e(fragment.javaClass.simpleName, "Error while updating a TaskList.")
+                }
+    }
+
+    fun updateAssignedPerson(fragment: TicketDetailsFragment, ticket: Ticket){
+        val ticketHashMap = HashMap<String, Any>()
+        ticketHashMap[Constants.ASSIGNED_TO] = ""
+
+        db.collection(Constants.TICKETS)
+                .document(ticket.id)
+                .update(ticketHashMap)
                 .addOnSuccessListener {
                     Log.e(fragment.javaClass.simpleName, "TaskList updated successfully.")
 

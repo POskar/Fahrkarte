@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fahrkarte.R
 import com.example.fahrkarte.data.Firebase.Firestore
 import com.example.fahrkarte.data.models.Task
 import com.example.fahrkarte.data.models.Ticket
+import com.example.fahrkarte.data.models.User
 import com.example.fahrkarte.databinding.FragmentTicketDetailsBinding
 
 class TicketDetailsFragment : Fragment() {
@@ -33,8 +35,10 @@ class TicketDetailsFragment : Fragment() {
         _binding = FragmentTicketDetailsBinding.inflate(inflater, container, false)
 
         var passed_ticket : Ticket = args.ticket
+        var currentUserID = Firestore().getCurrentUserId()
 
         Firestore().getTicketDetails(this, passed_ticket.id)
+        Firestore().loadUserData(this)
 
         binding.etTicketid.text = "ID: ${passed_ticket.id}"
         binding.etStatus.text = passed_ticket.status
@@ -51,11 +55,15 @@ class TicketDetailsFragment : Fragment() {
         }
 
         if(passed_ticket.status == "Closed"){
-            binding.tvCreateTask.visibility = View.GONE
+            binding.btnCreateTask.visibility = View.GONE
             binding.cvCreateTicket.visibility = View.GONE
         }
 
-        binding.tvCreateTask.setOnClickListener {
+        if(passed_ticket.assignedToPerson == currentUserID){
+            binding.btnSendBack.visibility = View.VISIBLE
+        }
+
+        binding.btnCreateTask.setOnClickListener {
             TransitionManager.beginDelayedTransition(binding.cvCreateTicket, AutoTransition())
             binding.cvCreateTicket.visibility = View.VISIBLE
         }
@@ -80,6 +88,11 @@ class TicketDetailsFragment : Fragment() {
             binding.spnStatus.setSelection(0)
         }
 
+        binding.btnSendBack.setOnClickListener {
+            Firestore().updateAssignedPerson(this, passed_ticket)
+            findNavController().navigate(R.id.action_ticketDetailsFragment_to_myDeskFragment)
+        }
+
         return binding.root
     }
 
@@ -95,27 +108,36 @@ class TicketDetailsFragment : Fragment() {
         binding.etStatus.text = ticket.status
     }
 
-    fun createNewTask(description: String){
+    private fun createNewTask(description: String){
         val task = Task(description, Firestore().getCurrentUserId(), mTicket.taskList.size + 1)
 
         mTicket.taskList.add(0, task)
-        //mTicket.taskList.removeAt(mTicket.taskList.size - 1)
 
         when(binding.spnStatus.selectedItem){
             "Open" -> { mTicket.status = "Open" }
             "Waiting" -> { mTicket.status = "Waiting" }
             "Closed" -> {
                 mTicket.status = "Closed"
-                binding.tvCreateTask.visibility = View.GONE
+                binding.btnCreateTask.visibility = View.GONE
                 binding.cvCreateTicket.visibility = View.GONE
             }
         }
 
         mTicket.assignedToPerson = Firestore().getCurrentUserId()
-        Firestore().addUpdateTaskList(this, mTicket)
+        Firestore().updateTaskList(this, mTicket)
+
+        Toast.makeText(requireContext(), "Task has been created.", Toast.LENGTH_SHORT).show()
     }
 
     fun addUpdateTaskListSuccess() {
         Firestore().getTicketDetails(this, mTicket.id)
+    }
+
+    fun checkUserType(user: User) {
+        if(user.admin == 0){
+            binding.btnCreateTask.visibility = View.GONE
+        }else{
+            binding.btnCreateTask.visibility = View.VISIBLE
+        }
     }
 }

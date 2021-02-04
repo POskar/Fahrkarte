@@ -21,8 +21,6 @@ import kotlin.random.Random
 
 class CreateTicketFragment : Fragment() {
 
-    //TODO dodać tworzenie ticketów, aby sprawdzić jak wygląda RecyclerView, najlepiej by było z unikatowym id -> eg. 20210127-1234
-
     private var _binding: FragmentCreateTicketBinding? = null
     private val binding get() = _binding!!
 

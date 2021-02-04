@@ -1,19 +1,27 @@
 package com.example.fahrkarte.fragments.SignUp
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fahrkarte.R
 import com.example.fahrkarte.data.Firebase.Firestore
 import com.example.fahrkarte.data.models.User
 import com.example.fahrkarte.databinding.FragmentSignUpBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseUser
+
 
 class SignUpFragment : Fragment() {
 
@@ -21,8 +29,8 @@ class SignUpFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
@@ -53,18 +61,28 @@ class SignUpFragment : Fragment() {
         }
 
         if(validateForm(fullname, email, password, department)){
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                    task ->
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val firebaseUser: FirebaseUser = task.result!!.user!!
                     val registeredEmail = firebaseUser.email!!
 
-
                     val user = User(firebaseUser.uid, fullname, registeredEmail, department, "", 0, whetherAdmin)
                     Firestore().registerUser(this, user)
+                    Toast.makeText(requireContext(), "User registered successfully.", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_signUpFragment_to_introFragment)
                 } else {
-                    Toast.makeText(requireContext(), "Registration failed", Toast.LENGTH_SHORT).show()
+                    try {
+                        throw task.exception!!
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        showErrorSnackbar(e.message.toString())
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        showErrorSnackbar(e.message.toString())
+                    } catch (e: FirebaseAuthUserCollisionException) {
+                        showErrorSnackbar(e.message.toString())
+                    } catch (e: Exception) {
+                        showErrorSnackbar(e.message.toString())
+                    }
+                    Log.e("Sign up", task.exception?.message, task.exception)
                 }
             }
         }
@@ -73,24 +91,32 @@ class SignUpFragment : Fragment() {
     private fun validateForm(name: String, email: String, password: String, department: String): Boolean {
         return when {
             TextUtils.isEmpty(name)->{
-                Toast.makeText(requireContext(), "Please enter the name and surname", Toast.LENGTH_SHORT).show()
+                showErrorSnackbar("Please enter the name and surname.")
                 false
             }
             TextUtils.isEmpty(email)->{
-                Toast.makeText(requireContext(), "Please enter the e-mail", Toast.LENGTH_SHORT).show()
+                showErrorSnackbar("Please enter the e-mail.")
                 false
             }
             TextUtils.isEmpty(password)->{
-                Toast.makeText(requireContext(), "Please enter the password", Toast.LENGTH_SHORT).show()
+                showErrorSnackbar("Please enter the password.")
                 false
             }
             TextUtils.isEmpty(department)->{
-                Toast.makeText(requireContext(), "Please choose your department", Toast.LENGTH_SHORT).show()
+                showErrorSnackbar("Please choose your department.")
                 false
             }else->{
                 true
             }
 
         }
+    }
+
+    private fun showErrorSnackbar(message: String){
+        val snackBar = Snackbar.make(requireActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+
+        val snackBarView = snackBar.view
+        snackBarView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.snackbar_error_color))
+        snackBar.show()
     }
 }
