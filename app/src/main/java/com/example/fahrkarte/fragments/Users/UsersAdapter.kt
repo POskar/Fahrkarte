@@ -26,20 +26,18 @@ open class UsersAdapter(private var fragment: Fragment, private var list: ArrayL
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = list[position]
-        if(holder is MyViewHolder){
-            try {
-                Glide
-                        .with(fragment)
-                        .load(model.image)
-                        .centerCrop()
-                        .placeholder(R.drawable.round_profile_icon)
-                        .into(binding.ivUserImage)
-            }catch(e: IOException){
-                e.printStackTrace()
-            }
-            binding.tvName.text = model.name
-            binding.tvDepartment.text = model.department
+        try {
+            Glide
+                    .with(fragment)
+                    .load(model.image)
+                    .centerCrop()
+                    .placeholder(R.drawable.round_profile_icon)
+                    .into(binding.ivUserImage)
+        }catch(e: IOException){
+            e.printStackTrace()
         }
+        binding.tvName.text = model.name
+        binding.tvDepartment.text = model.department
     }
 
     override fun getItemCount(): Int {

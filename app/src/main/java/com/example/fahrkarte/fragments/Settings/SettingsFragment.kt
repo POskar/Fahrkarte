@@ -145,7 +145,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    fun uploadUserImage(){
+    private fun uploadUserImage(){
         if(mSelectedImageFileUri != null){
             val sRef : StorageReference = FirebaseStorage.getInstance().reference.child("USER_IMAGE_" + FirebaseAuth.getInstance().currentUser + "." + Constants.getFileExtension(requireActivity(), mSelectedImageFileUri))
 

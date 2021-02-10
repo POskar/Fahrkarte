@@ -26,4 +26,27 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
         override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     }
+
+    private val statuses: HashMap<String, Int> = hashMapOf(
+        "Open" to 0,
+        "Waiting" to 0,
+        "Closed" to 3
+    )
+
+    private val priorities: HashMap<String, Int> = hashMapOf(
+        "High Priority" to 0,
+        "Medium Priority" to 1,
+        "Low Priority" to 2
+    )
+
+    fun sortTickets(tickets: ArrayList<Ticket>): ArrayList<Ticket> {
+        val comparator = Comparator { t1: Ticket, t2: Ticket ->
+            return@Comparator statuses[t1.status]!! - statuses[t2.status]!! + priorities[t1.priority]!! - priorities[t2.priority]!!
+        }
+        val copy = arrayListOf<Ticket>().apply { addAll(tickets) }
+        copy.sortWith(comparator)
+        return copy
+    }
+
+
 }

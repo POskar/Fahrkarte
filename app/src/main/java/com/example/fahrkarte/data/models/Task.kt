@@ -11,7 +11,7 @@ data class Task (
     constructor(parcel: Parcel) : this(
             parcel.readString()!!,
             parcel.readString()!!,
-            parcel.readInt()!!
+            parcel.readInt()
     )
 
     override fun describeContents() = 0

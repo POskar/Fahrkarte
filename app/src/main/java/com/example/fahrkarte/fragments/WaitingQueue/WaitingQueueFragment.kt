@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fahrkarte.R
 import com.example.fahrkarte.data.Firebase.Firestore
+import com.example.fahrkarte.data.models.SharedViewModel
 import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.databinding.FragmentMyDeskBinding
 import com.example.fahrkarte.databinding.FragmentWaitingQueueBinding
@@ -19,6 +21,8 @@ class WaitingQueueFragment : Fragment() {
 
     private var _binding: FragmentWaitingQueueBinding? = null
     private val binding get() = _binding!!
+
+    private val mSharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +48,7 @@ class WaitingQueueFragment : Fragment() {
             binding.rvTicketsList.layoutManager = LinearLayoutManager(requireContext())
             binding.rvTicketsList.setHasFixedSize(true)
 
-            ticketsList.sortedBy { it.status }
-            val adapter = MyTicketsAdapter(ticketsList)
+            val adapter = MyTicketsAdapter(mSharedViewModel.sortTickets(ticketsList))
             binding.rvTicketsList.adapter = adapter
 
             adapter.setOnClickListener(object: MyTicketsAdapter.OnClickListener{

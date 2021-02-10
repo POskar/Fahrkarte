@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fahrkarte.R
 import com.example.fahrkarte.data.Firebase.Firestore
+import com.example.fahrkarte.data.models.SharedViewModel
 import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.databinding.FragmentMyDeskBinding
 import com.example.fahrkarte.databinding.FragmentMyTicketsBinding
@@ -19,6 +21,8 @@ class MyDeskFragment : Fragment() {
 
     private var _binding: FragmentMyDeskBinding? = null
     private val binding get() = _binding!!
+
+    private val mSharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +40,7 @@ class MyDeskFragment : Fragment() {
 
     fun populateTicketsRecyclerView(ticketsList: ArrayList<Ticket>){
         var listSize = ticketsList.size
-        var quantity = ""
+        var quantity: String
         if(listSize > 0){
             if(listSize > 1){
                 quantity = "are $listSize tickets"
@@ -50,8 +54,7 @@ class MyDeskFragment : Fragment() {
             binding.rvTicketsList.layoutManager = LinearLayoutManager(requireContext())
             binding.rvTicketsList.setHasFixedSize(true)
 
-            ticketsList.sortedBy { it.status }
-            val adapter = MyTicketsAdapter(ticketsList)
+            val adapter = MyTicketsAdapter(mSharedViewModel.sortTickets(ticketsList))
             binding.rvTicketsList.adapter = adapter
 
             adapter.setOnClickListener(object: MyTicketsAdapter.OnClickListener{

@@ -19,6 +19,7 @@ import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.data.models.User
 import com.example.fahrkarte.databinding.FragmentTicketDetailsBinding
 
+@Suppress("DEPRECATION")
 class TicketDetailsFragment : Fragment() {
 
     private var _binding: FragmentTicketDetailsBinding? = null
@@ -52,11 +53,6 @@ class TicketDetailsFragment : Fragment() {
             "High Priority" -> { binding.etPriority.setTextColor(resources.getColor(R.color.red)) }
             "Medium Priority"-> { binding.etPriority.setTextColor(resources.getColor(R.color.yellow)) }
             "Low Priority"-> { binding.etPriority.setTextColor(resources.getColor(R.color.green)) }
-        }
-
-        if(passed_ticket.status == "Closed"){
-            binding.btnCreateTask.visibility = View.GONE
-            binding.cvCreateTicket.visibility = View.GONE
         }
 
         if(passed_ticket.assignedToPerson == currentUserID){
@@ -114,16 +110,22 @@ class TicketDetailsFragment : Fragment() {
         mTicket.taskList.add(0, task)
 
         when(binding.spnStatus.selectedItem){
-            "Open" -> { mTicket.status = "Open" }
-            "Waiting" -> { mTicket.status = "Waiting" }
+            "Open" -> {
+                mTicket.status = "Open"
+                mTicket.assignedToPerson = Firestore().getCurrentUserId()
+            }
+            "Waiting" -> {
+                mTicket.status = "Waiting"
+                mTicket.assignedToPerson = Firestore().getCurrentUserId()
+            }
             "Closed" -> {
                 mTicket.status = "Closed"
+                mTicket.assignedToPerson = ""
                 binding.btnCreateTask.visibility = View.GONE
                 binding.cvCreateTicket.visibility = View.GONE
             }
         }
 
-        mTicket.assignedToPerson = Firestore().getCurrentUserId()
         Firestore().updateTaskList(this, mTicket)
 
         Toast.makeText(requireContext(), "Task has been created.", Toast.LENGTH_SHORT).show()
@@ -134,7 +136,7 @@ class TicketDetailsFragment : Fragment() {
     }
 
     fun checkUserType(user: User) {
-        if(user.admin == 0){
+        if(user.admin == 0 || binding.etStatus.text == "Closed"){
             binding.btnCreateTask.visibility = View.GONE
         }else{
             binding.btnCreateTask.visibility = View.VISIBLE

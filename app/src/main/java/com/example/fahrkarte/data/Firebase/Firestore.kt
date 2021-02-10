@@ -2,16 +2,20 @@ package com.example.fahrkarte.data.Firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Adapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fahrkarte.activities.MainActivity
 import com.example.fahrkarte.data.models.Ticket
 import com.example.fahrkarte.data.models.User
 import com.example.fahrkarte.fragments.CreateTicket.CreateTicketFragment
 import com.example.fahrkarte.fragments.MyDesk.MyDeskFragment
+import com.example.fahrkarte.fragments.MyTickets.MyTicketsAdapter
 import com.example.fahrkarte.fragments.MyTickets.MyTicketsFragment
 import com.example.fahrkarte.fragments.Settings.SettingsFragment
 import com.example.fahrkarte.fragments.SignUp.SignUpFragment
+import com.example.fahrkarte.fragments.TicketDetails.TicketDetailsAdapter
 import com.example.fahrkarte.fragments.TicketDetails.TicketDetailsFragment
 import com.example.fahrkarte.fragments.Users.UsersFragment
 import com.example.fahrkarte.fragments.WaitingQueue.WaitingQueueFragment
@@ -95,7 +99,7 @@ class Firestore {
                     document ->
                     val usersList: ArrayList<User> = ArrayList()
                     for(i in document){
-                        var user = i.toObject(User::class.java)!!
+                        var user = i.toObject(User::class.java)
                         usersList.add(user)
                     }
 
@@ -223,8 +227,8 @@ class Firestore {
 
                     fragment.addUpdateTaskListSuccess()
                 }.addOnFailureListener {
-                    exception ->
-                    Log.e(fragment.javaClass.simpleName, "Error while updating a TaskList.")
+                    e ->
+                    Log.e(fragment.javaClass.simpleName, "Error while updating a TaskList.", e)
                 }
     }
 
@@ -240,8 +244,8 @@ class Firestore {
 
                     fragment.addUpdateTaskListSuccess()
                 }.addOnFailureListener {
-                    exception ->
-                    Log.e(fragment.javaClass.simpleName, "Error while updating a TaskList.")
+                    e ->
+                    Log.e(fragment.javaClass.simpleName, "Error while updating a TaskList.", e)
                 }
     }
     //endregion

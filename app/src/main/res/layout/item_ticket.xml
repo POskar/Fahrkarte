@@ -30,7 +30,6 @@
                         android:id="@+id/tv_ticket_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20210127-1234"
                         android:textSize="16sp"
                         android:textColor="@color/secondary_text_color"
                         android:layout_marginRight="10dp"/>
